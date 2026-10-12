@@ -106,7 +106,7 @@
     text-shadow:0 2px 10px rgba(0,30,60,.4)}
   .cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:34px}
   .btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-size:17px;
-    padding:15px 30px;border-radius:99px;transition:.22s;font-family:inherit}
+    padding:15px 30px;border-radius:99px;transition:.22s;font-family:inherit;border:none;cursor:pointer}
   .btn.primary{background:#fff;color:#123047;font-weight:700;box-shadow:0 8px 26px rgba(0,25,50,.3)}
   .btn.primary:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,25,50,.4)}
   .btn.ghost{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);color:#fff;
@@ -141,10 +141,54 @@
     font-size:14px;opacity:.75;border-top:1px solid rgba(255,255,255,.06)}
   footer a{color:#8fd3ff;text-decoration:none;margin:0 8px}
 
+  /* ===== МОДАЛКА АНТИВИРУС ===== */
+  .av-overlay{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+    padding:22px;background:rgba(3,10,20,.82);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+    opacity:0;pointer-events:none;transition:opacity .3s}
+  .av-overlay.show{opacity:1;pointer-events:auto}
+  .av-modal{width:min(560px,100%);border-radius:22px;padding:2px;
+    background-image:linear-gradient(135deg,rgba(255,150,60,.75),rgba(255,90,90,.5),rgba(255,180,80,.3));
+    transform:translateY(26px) scale(.97);transition:transform .35s cubic-bezier(.2,.9,.3,1.2);
+    box-shadow:0 40px 90px -30px rgba(0,0,0,.85)}
+  .av-overlay.show .av-modal{transform:none}
+  .av-inner{background:#0b1e31;border-radius:21px;padding:34px 30px 28px;text-align:center;
+    position:relative;overflow:hidden}
+  .av-inner::before{content:'';position:absolute;top:-70px;left:50%;transform:translateX(-50%);
+    width:280px;height:200px;background:radial-gradient(circle,rgba(255,170,60,.2),transparent 70%);pointer-events:none}
+  .av-ic{width:64px;height:64px;border-radius:18px;margin:0 auto 20px;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(255,170,60,.14);border:1px solid rgba(255,170,60,.4);color:#ffb547;
+    animation:avPulse 2s ease-in-out infinite}
+  @keyframes avPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,170,60,.35)}50%{box-shadow:0 0 0 14px rgba(255,170,60,0)}}
+  .av-modal h3{font-size:23px;font-weight:700;line-height:1.25;margin-bottom:14px;
+    text-shadow:0 2px 12px rgba(0,30,60,.4)}
+  .av-modal p{color:rgba(255,255,255,.72);font-size:15px;line-height:1.6;margin-bottom:10px}
+  .av-modal p b{color:#fff}
+  .av-list{text-align:left;margin:18px auto 0;max-width:460px;display:flex;flex-direction:column;gap:10px;
+    list-style:none}
+  .av-list li{display:flex;gap:11px;align-items:flex-start;
+    font-size:14px;color:rgba(255,255,255,.72);background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:11px 14px;line-height:1.5}
+  .av-list li svg{flex:none;margin-top:2px;color:#ffb547}
+  .av-list li b{color:#fff}
+  .av-actions{display:flex;gap:12px;margin-top:26px;justify-content:center;flex-wrap:wrap}
+  .av-btn-warn{background:linear-gradient(135deg,#ffb547,#ff8a3d);color:#241100;padding:15px 28px;
+    font-size:16px;font-weight:700;border-radius:99px;border:none;cursor:pointer;font-family:inherit;
+    box-shadow:0 12px 34px -12px rgba(255,150,60,.65);transition:.22s}
+  .av-btn-warn:hover{transform:translateY(-2px);filter:brightness(1.06);
+    box-shadow:0 18px 44px -12px rgba(255,150,60,.8)}
+  .av-btn-cancel{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22);
+    padding:15px 26px;font-size:16px;border-radius:99px;cursor:pointer;font-family:inherit;transition:.22s}
+  .av-btn-cancel:hover{background:rgba(255,255,255,.18)}
+  .av-note{margin-top:18px;font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.5}
+
   @media (max-width:760px){
     .links{display:none}
     .hero{padding-bottom:30vh}
     .cliff{width:44vw}
+    .av-inner{padding:26px 20px 22px}
+    .av-actions{flex-direction:column}
+    .av-actions button{width:100%}
   }
   @media (prefers-reduced-motion:reduce){.cloud{animation:none}}
 </style>
@@ -215,14 +259,14 @@
   <p class="sub">Dimasik — клиент, в который наши разработчики вложили душу... и мозги тоже.</p>
 
   <div class="cta">
-    <a class="btn primary" href="https://i.desu.si/dagVpyvB.zip" download>
+    <a class="btn primary" href="#" data-dl>
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 20h16"/></svg>
       Скачать ZIP архив
     </a>
     <a class="btn ghost" href="#docs">Документация</a>
   </div>
 
-  <p class="meta">Версия 1.21.4 &nbsp;·&nbsp; Только Windows 10/11 (64-bit) &nbsp;·&nbsp; Бесплатно &nbsp;·&nbsp; ~559 МБ</p>
+  <p class="meta">Версия 1.21.4 &nbsp;·&nbsp; Только Windows 10/11 (64-bit) &nbsp;·&nbsp; Бесплатно &nbsp;·&nbsp; ~517 МБ</p>
 </section>
 
 <!-- ===== ВОЗМОЖНОСТИ ===== -->
@@ -258,9 +302,87 @@
   <a href="#">Telegram</a>·<a href="#">Discord</a>·<a href="#">GitHub</a>
 </footer>
 
+<!-- ===== МОДАЛКА: ПРЕДУПРЕЖДЕНИЕ ОБ АНТИВИРУСЕ ===== -->
+<div class="av-overlay" id="avOverlay" role="dialog" aria-modal="true" aria-labelledby="avTitle">
+  <div class="av-modal">
+    <div class="av-inner">
+      <div class="av-ic">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2 4 5.5v5.2c0 5 3.4 9.6 8 11.3 4.6-1.7 8-6.3 8-11.3V5.5L12 2z"/>
+          <path d="M12 8v5"/>
+          <circle cx="12" cy="16.2" r=".8" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <h3 id="avTitle">Выключи антивирус перед скачиванием</h3>
+      <p>Это чит-клиент: он внедряет <b>DLL в игру</b> и меняет поведение Minecraft. Поэтому Windows Defender и сторонние антивирусы могут ругаться, блокировать установку или удалять файлы.</p>
+      <ul class="av-list">
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12.5 10 17.5 19 7"/></svg>
+          <span>Временно <b>отключи антивирус</b> (Windows Defender, Avast, Kaspersky и т.д.) на время скачивания и установки.</span>
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12.5 10 17.5 19 7"/></svg>
+          <span>Добавь папку клиента в <b>исключения антивируса</b>, чтобы он не удалил DLL после запуска.</span>
+        </li>
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12.5 10 17.5 19 7"/></svg>
+          <span>Если браузер или система блокируют загрузку — <b>разреши сохранение файла</b>.</span>
+        </li>
+      </ul>
+      <div class="av-actions">
+        <button class="av-btn-warn" id="avConfirm">Я выключил антивирус — скачать</button>
+        <button class="av-btn-cancel" id="avCancel">Отмена</button>
+      </div>
+      <p class="av-note">Клиент не содержит вирусов, но антивирусы реагируют на внедрение DLL и обход защиты Minecraft.</p>
+    </div>
+  </div>
+</div>
+
 <script>
+  /* тема */
   const btn = document.getElementById('themeBtn');
   btn.addEventListener('click', () => document.body.classList.toggle('night'));
+
+  /* ===== Логика скачивания с предупреждением об антивирусе ===== */
+  const DOWNLOAD_URL = "https://github.com/OceanPlay1/dimasik/raw/main/DimasikLauncher.exe";
+
+  const avOverlay = document.getElementById('avOverlay');
+  const dlButtons = document.querySelectorAll('[data-dl]');
+  let pendingDownload = false;
+
+  /* подставляем ссылку во все кнопки скачивания */
+  dlButtons.forEach(a => {
+    a.href = DOWNLOAD_URL;
+    a.setAttribute('download', '');
+  });
+
+  /* перехватываем клик — сначала показываем модалку */
+  dlButtons.forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    pendingDownload = true;
+    avOverlay.classList.add('show');
+  }));
+
+  function closeAvModal(){
+    avOverlay.classList.remove('show');
+    pendingDownload = false;
+  }
+
+  document.getElementById('avCancel').addEventListener('click', closeAvModal);
+  avOverlay.addEventListener('click', e => { if (e.target === avOverlay) closeAvModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAvModal(); });
+
+  document.getElementById('avConfirm').addEventListener('click', () => {
+    if (pendingDownload && DOWNLOAD_URL) {
+      const tmp = document.createElement('a');
+      tmp.href = DOWNLOAD_URL;
+      tmp.setAttribute('download', '');
+      document.body.appendChild(tmp);
+      tmp.click();
+      document.body.removeChild(tmp);
+    }
+    closeAvModal();
+  });
 </script>
 
 </body>
